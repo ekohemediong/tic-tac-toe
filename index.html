@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tic Tac Toe</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+   <meta name="description" content="Your best tic tac toe game"/>
+     <meta name="author" content="Emediong Ekoh"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+        *{
+         font-family: 'Russo One', sans-serif;  
+        }
+        body{
+            background:khaki;
+        }
+        .container{
+           overflow:auto;
+           margin:10% auto;
+        }
+        .btns{
+            width:5rem;
+            height:5rem;
+            font-size:3rem;
+            font-weight:bold;
+            color:gray;
+            background:lightgray;
+        }
+        .row{
+            display:flex;
+            justify-content:center;
+            align-content:flex-start;
+            flex-wrap:no-wrap; 
+        }
+        .data{
+            text-align:center;
+            font-size:0.3rem;
+            text-align:center;
+            margin:0.5rem;
+            font-weight:700;
+            background:rgba(0,0,0,0.5);
+            color:white;
+            border-radius:1rem;
+            padding:0.5rem;
+            width:70%;
+        }
+        .data-con{
+            display:flex;
+            justify-content:center;
+        }
+        #restart{
+           margin:0.5rem;
+           padding:1rem;
+           width:70%;
+           text-align:center;
+           border:none;
+           background:rgba(0,0,0,0.5);
+           color:khaki;
+           box-shadow:0 0 5px lightgray; 
+        }
+        .res-con{
+            text-align:center;
+        }
+        #Won{
+           position:fixed;
+           padding:1rem;
+           background:green;
+           margin:1rem;
+           top:30%;
+           left:1%;
+           color:white;
+           box-shadow:0 1px 5px lightgray; 
+           display:none;
+        }
+        #Lost{
+           position:fixed;
+           padding:1rem;
+           background:maroon;
+           margin:1rem;
+           top:30%;
+           left:1%;
+           color:white;
+           box-shadow:0 1px 5px lightgray; 
+           display:none;
+        }
+        .stat{
+            background:rgba(0,0,0,0.5);
+            color:khaki;
+            width:40%;
+            padding:0.6rem;
+            border-radius:1rem;
+        }
+        .owner{
+            text-align:center;
+            opacity:0.5;
+            font-size:0.6rem;
+        }
+    </style>
+</head>
+<body>
+    <script type='text/javascript' src='https://pl18319555.highcpmrevenuenetwork.com/e3/f6/e2/e3f6e2a9d4698344c132bca25772be1b.js'></script>
+   <script type="text/javascript">
+	atOptions = {
+		'key' : '41418f387fa21f9fa292948c9b2d174a',
+		'format' : 'iframe',
+		'height' : 50,
+		'width' : 320,
+		'params' : {}
+	};
+	document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivecreativeformat.com/41418f387fa21f9fa292948c9b2d174a/invoke.js"></scr' + 'ipt>');
+</script> 
+     <div>
+            <p id="statA" class="stat">Computer : <span id="winComp">0</span></p>
+            <p id="statB" class="stat">You : <span id="winX">0</span></p>
+        </div>
+    <main class="container">
+        
+        <div class="data-con">
+        <p class="data">Its <span id="turn"></span> turn to play</p>
+        </div>
+        <div class="row">
+            <button id="btn1" class="btns"></button>
+            <button id="btn2" class="btns"></button>
+            <button id="btn3" class="btns"></button></div>
+        <div class="row">
+            <button id="btn4" class="btns"></button>
+            <button id="btn5" class="btns"></button>
+            <button id="btn6" class="btns"></button></div>
+        <div class="row">
+            <button id="btn7" class="btns"></button>
+            <button id="btn8" class="btns"></button>
+            <button id="btn9" class="btns"></button></div>
+            <div class="res-con">
+            <button id="restart">Restart</button>
+            </div>
+    </main>
+    <div id="Won">
+       <p>You won the computer 💻 <br/>
+       computer:<span id="speech">hmm, better luck next time😣</span></p> 
+       <button id="cancel1">Ok</button>
+    </div>
+    <div id="Lost">
+        <p>You lost against the computer <span>computer:Am a god, try next time 😎</span></p>
+        <button id="cancel2">Ok</button>
+    </div>
+    <p class="owner">emediongekoh</p>
+    <script>
+     let meta ={
+         state:true,
+         turn:0,
+         win:0,
+         winComp:0,
+         winX:0
+         
+     }
+    
+     let gameloop
+     
+     function doc(id){
+         return document.getElementById(id)
+     }
+     
+     function setTurn(){
+      if(meta.turn==0){
+       document.getElementById("turn").innerHTML="X"
+       }else{
+document.getElementById("turn").innerHTML=`computer's 💻 `          
+       }
+     
+    }
+   
+    function restart(){
+     doc("btn1").innerHTML=""
+     doc("btn2").innerHTML="" 
+     doc("btn3").innerHTML=""
+     doc("btn4").innerHTML="" 
+     doc("btn5").innerHTML=""
+     doc("btn6").innerHTML="" 
+     doc("btn7").innerHTML=""
+     doc("btn8").innerHTML="" 
+     doc("btn9").innerHTML=""
+     meta.turn=0
+     meta.state=true
+     meta.win=0
+     clearInterval(gameloop)
+    }
+    
+    function checkWin(){
+
+if(doc("btn1").innerHTML=="X"&&doc("btn2").innerHTML=="X"&&doc("btn3").innerHTML=="X"){
+           
+       return   meta.win=2
+      }
+else if(doc("btn1").innerHTML=="X"&&doc("btn3").innerHTML=="X"&&doc("btn2").innerHTML=="X"){
+           
+         return meta.win=2
+      } 
+else if(doc("btn2").innerHTML=="X"&&doc("btn3").innerHTML=="X"&&doc("btn1").innerHTML=="X"){
+           
+       return   meta.win=2
+      }
+else if(doc("btn4").innerHTML=="X"&&doc("btn5").innerHTML=="X"&&doc("btn6").innerHTML=="X"){
+           
+       return  meta.win=2
+      }      
+else if(doc("btn4").innerHTML=="X"&&doc("btn6").innerHTML=="X"&&doc("btn5").innerHTML=="X"){
+           
+    return   meta.win=2 
+      }  
+else if(doc("btn5").innerHTML=="X"&&doc("btn6").innerHTML=="X"&&doc("btn4").innerHTML=="X"){
+          
+      return  meta.win=2
+      }
+else if(doc("btn7").innerHTML=="X"&&doc("btn8").innerHTML=="X"&&doc("btn9").innerHTML=="X"){
+           
+       return  meta.win=2
+      }   
+else if(doc("btn7").innerHTML=="X"&&doc("btn9").innerHTML=="X"&&doc("btn8").innerHTML=="X"){
+         
+        return  meta.win=2
+      }  
+else if(doc("btn8").innerHTML=="X"&&doc("btn9").innerHTML=="X"&&doc("btn7").innerHTML=="X"){
+         
+       return   meta.win=2
+      } 
+else if(doc("btn1").innerHTML=="X"&&doc("btn4").innerHTML=="X"&&doc("btn7").innerHTML=="X"){
+          
+        return  meta.win=2
+      }   
+else if(doc("btn1").innerHTML=="X"&&doc("btn7").innerHTML=="X"&&doc("btn4").innerHTML=="X"){
+           
+       return   meta.win=2
+      }  
+else if(doc("btn4").innerHTML=="X"&&doc("btn7").innerHTML=="X"&&doc("btn1").innerHTML=="X"){
+           
+       return  meta.win=2
+      } 
+else if(doc("btn2").innerHTML=="X"&&doc("btn5").innerHTML=="X"&&doc("btn8").innerHTML=="X"){
+         
+        return  meta.win=2
+      } 
+else if(doc("btn2").innerHTML=="X"&&doc("btn8").innerHTML=="X"&&doc("btn5").innerHTML=="X"){
+         
+       return meta.win=2 
+      } 
+else if(doc("btn5").innerHTML=="X"&&doc("btn8").innerHTML=="X"&&doc("btn2").innerHTML=="X"){
+         
+        return  meta.win=2
+      } 
+else if(doc("btn3").innerHTML=="X"&&doc("btn6").innerHTML=="X"&&doc("btn9").innerHTML=="X"){
+           
+        return  meta.win=2
+      } 
+else if(doc("btn3").innerHTML=="X"&&doc("btn9").innerHTML=="X"&&doc("btn6").innerHTML=="X"){
+           
+        return  meta.win=2
+      } 
+ else if(doc("btn6").innerHTML=="X"&&doc("btn9").innerHTML=="X"&&doc("btn3").innerHTML=="X"){
+           
+       return   meta.win=2
+      } 
+else if(doc("btn1").innerHTML=="X"&&doc("btn5").innerHTML=="X"&&doc("btn9").innerHTML=="X"){
+         
+       return   meta.win=2
+      }
+else if(doc("btn1").innerHTML=="X"&&doc("btn9").innerHTML=="X"&&doc("btn5").innerHTML=="X"){
+        
+       return   meta.win=2
+      }
+else if(doc("btn5").innerHTML=="X"&&doc("btn9").innerHTML=="X"&&doc("btn1").innerHTML=="X"){
+           
+       return  meta.win=2
+      }
+else if(doc("btn3").innerHTML=="X"&&doc("btn5").innerHTML=="X"&&doc("btn7").innerHTML=="X"){
+           
+       return   meta.win=2
+      } 
+else if(doc("btn3").innerHTML=="X"&&doc("btn7").innerHTML=="X"&&doc("btn5").innerHTML=="X"){
+       return   
+          meta.win=2
+      }
+else if(doc("btn5").innerHTML=="X"&&doc("btn7").innerHTML=="X"&&doc("btn3").innerHTML=="X"){
+         
+       return  meta.win=2
+      }       
+        
+        
+        
+        
+    }
+    
+     function numberOfWin(id,value){
+    document.getElementById(id).innerHTML=value
+ 
+    }
+    
+    function evaluateWin(){
+    
+        if(meta.win==1){
+            restart()
+            alert("Computer won!")
+            meta.winComp+=1
+          numberOfWin("winComp",meta.winComp)
+        }
+        else if(meta.win==2){
+            restart()
+            alert("Player X won!")
+            meta.winX+=1
+           numberOfWin("winX",meta.winX)
+        }
+        
+        else if(doc("btn1").innerHTML !=""&&doc("btn2").innerHTML !=""&&doc("btn3").innerHTML !=""&&doc("btn4").innerHTML !=""&&doc("btn5").innerHTML !=""&&doc("btn6").innerHTML !=""&&doc("btn7").innerHTML !=""&&doc("btn8").innerHTML !=""&&doc("btn9").innerHTML !=""){
+            alert("A tie")
+            restart()
+        }
+    }
+   
+    
+   
+   
+   
+     function computer(){
+    
+   gameloop=  setTimeout(()=>{
+     
+ if(doc("btn1").innerHTML=="O"&&doc("btn2").innerHTML=="O"&&doc("btn3").innerHTML==""){
+           doc("btn3").innerHTML="O"
+         meta.win=1
+      }
+else if(doc("btn1").innerHTML=="O"&&doc("btn3").innerHTML=="O"&&doc("btn2").innerHTML==""){
+           doc("btn2").innerHTML="O"
+          meta.win=1
+      } 
+else if(doc("btn2").innerHTML=="O"&&doc("btn3").innerHTML=="O"&&doc("btn1").innerHTML==""){
+           doc("btn1").innerHTML="O"
+         meta.win=1
+      }
+else if(doc("btn4").innerHTML=="O"&&doc("btn5").innerHTML=="O"&&doc("btn6").innerHTML==""){
+           doc("btn6").innerHTML="O"
+        meta.win=1
+      }      
+else if(doc("btn4").innerHTML=="O"&&doc("btn6").innerHTML=="O"&&doc("btn5").innerHTML==""){
+           doc("btn5").innerHTML="O"
+       meta.win=1  
+      }  
+else if(doc("btn5").innerHTML=="O"&&doc("btn6").innerHTML=="O"&&doc("btn4").innerHTML==""){
+           doc("btn4").innerHTML="O"
+       meta.win=1 
+      }
+else if(doc("btn7").innerHTML=="O"&&doc("btn8").innerHTML=="O"&&doc("btn9").innerHTML==""){
+           doc("btn9").innerHTML="O"
+         meta.win=1
+      }   
+else if(doc("btn7").innerHTML=="O"&&doc("btn9").innerHTML=="O"&&doc("btn8").innerHTML==""){
+           doc("btn8").innerHTML="O"
+         meta.win=1
+      }  
+else if(doc("btn8").innerHTML=="O"&&doc("btn9").innerHTML=="O"&&doc("btn7").innerHTML==""){
+           doc("btn7").innerHTML="O"
+         meta.win=1
+      } 
+else if(doc("btn1").innerHTML=="O"&&doc("btn4").innerHTML=="O"&&doc("btn7").innerHTML==""){
+           doc("btn7").innerHTML="O"
+          meta.win=1
+      }   
+else if(doc("btn1").innerHTML=="O"&&doc("btn7").innerHTML=="O"&&doc("btn4").innerHTML==""){
+           doc("btn4").innerHTML="O"
+           meta.win=1
+      }  
+else if(doc("btn4").innerHTML=="O"&&doc("btn7").innerHTML=="O"&&doc("btn1").innerHTML==""){
+           doc("btn1").innerHTML="O"
+         meta.win=1
+      } 
+else if(doc("btn2").innerHTML=="O"&&doc("btn5").innerHTML=="O"&&doc("btn8").innerHTML==""){
+           doc("btn8").innerHTML="O"
+          meta.win=1
+      } 
+else if(doc("btn2").innerHTML=="O"&&doc("btn8").innerHTML=="O"&&doc("btn5").innerHTML==""){
+           doc("btn5").innerHTML="O"
+        meta.win=1 
+      } 
+else if(doc("btn5").innerHTML=="O"&&doc("btn8").innerHTML=="O"&&doc("btn2").innerHTML==""){
+           doc("btn2").innerHTML="O"
+          meta.win=1
+      } 
+else if(doc("btn3").innerHTML=="O"&&doc("btn6").innerHTML=="O"&&doc("btn9").innerHTML==""){
+           doc("btn9").innerHTML="O"
+          meta.win=1
+      } 
+else if(doc("btn3").innerHTML=="O"&&doc("btn9").innerHTML=="O"&&doc("btn6").innerHTML==""){
+           doc("btn6").innerHTML="O"
+          meta.win=1
+      } 
+ else if(doc("btn6").innerHTML=="O"&&doc("btn9").innerHTML=="O"&&doc("btn3").innerHTML==""){
+           doc("btn3").innerHTML="O"
+          meta.win=1
+      } 
+else if(doc("btn1").innerHTML=="O"&&doc("btn5").innerHTML=="O"&&doc("btn9").innerHTML==""){
+           doc("btn9").innerHTML="O"
+          meta.win=1
+      }
+else if(doc("btn1").innerHTML=="O"&&doc("btn9").innerHTML=="O"&&doc("btn5").innerHTML==""){
+           doc("btn5").innerHTML="O"
+          meta.win=1
+      }
+else if(doc("btn5").innerHTML=="O"&&doc("btn9").innerHTML=="O"&&doc("btn1").innerHTML==""){
+           doc("btn1").innerHTML="O"
+         meta.win=1
+      }
+else if(doc("btn3").innerHTML=="O"&&doc("btn5").innerHTML=="O"&&doc("btn7").innerHTML==""){
+           doc("btn7").innerHTML="O"
+          meta.win=1
+      } 
+else if(doc("btn3").innerHTML=="O"&&doc("btn7").innerHTML=="O"&&doc("btn5").innerHTML==""){
+           doc("btn5").innerHTML="O"
+          meta.win=1
+      }
+else if(doc("btn5").innerHTML=="O"&&doc("btn7").innerHTML=="O"&&doc("btn3").innerHTML==""){
+           doc("btn3").innerHTML="O"
+         meta.win=1
+      }     
+                                                                                          
+       else if(doc("btn1").innerHTML=="X"&&doc("btn2").innerHTML=="X"&&doc("btn3").innerHTML==""){
+        doc("btn3").innerHTML="O"
+         
+      }
+      
+     else if(doc("btn1").innerHTML=="X"&&doc("btn3").innerHTML=="X"&&doc("btn2").innerHTML==""){
+           doc("btn2").innerHTML="O"
+         
+      }
+      else if(doc("btn2").innerHTML=="X"&&doc("btn3").innerHTML=="X"&&doc("btn1").innerHTML==""){
+           doc("btn1").innerHTML="O"
+          
+      }
+      else if(doc("btn4").innerHTML=="X"&&doc("btn5").innerHTML=="X"&&doc("btn6").innerHTML==""){
+           doc("btn6").innerHTML="O"
+         
+      }
+      else if(doc("btn4").innerHTML=="X"&&doc("btn6").innerHTML=="X"&&doc("btn5").innerHTML==""){
+           doc("btn5").innerHTML="O"
+          
+      }
+     else if(doc("btn5").innerHTML=="X"&&doc("btn6").innerHTML=="X"&&doc("btn4").innerHTML==""){
+           doc("btn4").innerHTML="O"
+          
+      }
+      else if(doc("btn7").innerHTML=="X"&&doc("btn8").innerHTML=="X"&&doc("btn9").innerHTML==""){
+           doc("btn9").innerHTML="O"
+          
+      }
+        else if(doc("btn7").innerHTML=="X"&&doc("btn9").innerHTML=="X"&&doc("btn8").innerHTML==""){
+           doc("btn8").innerHTML="O"
+          
+      }
+        else if(doc("btn8").innerHTML=="X"&&doc("btn9").innerHTML=="X"&&doc("btn7").innerHTML==""){
+           doc("btn7").innerHTML="O"
+          
+      }
+       else if(doc("btn1").innerHTML=="X"&&doc("btn4").innerHTML=="X"&&doc("btn7").innerHTML==""){
+           doc("btn7").innerHTML="O"
+          
+      }
+        else if(doc("btn1").innerHTML=="X"&&doc("btn7").innerHTML=="X"&&doc("btn4").innerHTML==""){
+           doc("btn4").innerHTML="O"
+          
+      }
+        else if(doc("btn4").innerHTML=="X"&&doc("btn7").innerHTML=="X"&&doc("btn1").innerHTML==""){
+           doc("btn1").innerHTML="O"
+          
+      }
+        else if(doc("btn2").innerHTML=="X"&&doc("btn5").innerHTML=="X"&&doc("btn8").innerHTML==""){
+           doc("btn8").innerHTML="O"
+          
+      }
+        else if(doc("btn2").innerHTML=="X"&&doc("btn8").innerHTML=="X"&&doc("btn5").innerHTML==""){
+           doc("btn5").innerHTML="O"
+          
+      }
+        else if(doc("btn5").innerHTML=="X"&&doc("btn8").innerHTML=="X"&&doc("btn2").innerHTML==""){
+           doc("btn2").innerHTML="O"
+          
+      }
+        else if(doc("btn3").innerHTML=="X"&&doc("btn6").innerHTML=="X"&&doc("btn9").innerHTML==""){
+           doc("btn9").innerHTML="O"
+          
+      }
+        else if(doc("btn3").innerHTML=="X"&&doc("btn9").innerHTML=="X"&&doc("btn6").innerHTML==""){
+           doc("btn6").innerHTML="O"
+          
+      }
+        else if(doc("btn6").innerHTML=="X"&&doc("btn9").innerHTML=="X"&&doc("btn3").innerHTML==""){
+           doc("btn3").innerHTML="O"
+          
+      }
+        else if(doc("btn1").innerHTML=="X"&&doc("btn5").innerHTML=="X"&&doc("btn9").innerHTML==""){
+           doc("btn9").innerHTML="O"
+          
+      }
+        else if(doc("btn1").innerHTML=="X"&&doc("btn9").innerHTML=="X"&&doc("btn5").innerHTML==""){
+           doc("btn5").innerHTML="O"
+          
+      }
+        else if(doc("btn5").innerHTML=="X"&&doc("btn9").innerHTML=="X"&&doc("btn1").innerHTML==""){
+           doc("btn1").innerHTML="O"
+          
+      }
+        else if(doc("btn3").innerHTML=="X"&&doc("btn5").innerHTML=="X"&&doc("btn7").innerHTML==""){
+           doc("btn7").innerHTML="O"
+          
+      }
+        else if(doc("btn3").innerHTML=="X"&&doc("btn7").innerHTML=="X"&&doc("btn5").innerHTML==""){
+           doc("btn5").innerHTML="O"
+          
+      }
+        else if(doc("btn7").innerHTML=="X"&&doc("btn5").innerHTML=="X"&&doc("btn3").innerHTML==""){
+           doc("btn3").innerHTML="O"
+          
+      }
+      else if(doc("btn4").innerHTML=="")
+       {
+           doc("btn4").innerHTML="O"
+           
+       }
+      else if(doc("btn5").innerHTML=="")
+       {
+           doc("btn5").innerHTML="O"
+           
+       }
+       else if(doc("btn3").innerHTML=="")
+       {
+           doc("btn3").innerHTML="O"
+           
+       }
+        else if(doc("btn2").innerHTML=="")
+       {
+           doc("btn2").innerHTML="O"
+           
+       }
+        else if(doc("btn6").innerHTML=="")
+       {
+           doc("btn6").innerHTML="O"
+           
+       }
+        else if(doc("btn8").innerHTML=="")
+       {
+           doc("btn8").innerHTML="O"
+           
+       }
+        else if(doc("btn9").innerHTML=="")
+       {
+           doc("btn9").innerHTML="O"
+           
+       }
+        else if(doc("btn7").innerHTML=="")
+       {
+           doc("btn7").innerHTML="O"
+           
+       }
+        else if(doc("btn1").innerHTML=="")
+       {
+           doc("btn1").innerHTML="O"
+           
+       }
+       checkWin()
+       setTimeout(()=>{
+       evaluateWin() 
+       },50)
+        meta.state=true
+        meta.turn=0
+      },1000)
+     
+      
+     }
+     
+     function btn1(){
+        if(meta.state==true && meta.turn==0 && doc("btn1").innerHTML!="O"){
+            document.getElementById("btn1").innerHTML="X"
+          meta.state=false 
+          meta.turn=1
+          
+         computer() 
+       }
+        
+      
+     }
+     
+     function btn2(){
+        if(meta.state==true && meta.turn==0 && doc("btn2").innerHTML!="O"){
+            document.getElementById("btn2").innerHTML="X"
+          meta.state=false 
+          meta.turn=1
+          
+        computer() 
+       }
+        
+       
+     }
+     
+     function btn3(){
+        if(meta.state==true && meta.turn==0 && doc("btn3").innerHTML!="O"){
+            document.getElementById("btn3").innerHTML="X"
+          meta.state=false 
+          meta.turn=1
+          computer()
+        }
+       
+     }
+     
+     function btn4(){
+        if(meta.state==true && meta.turn==0 && doc("btn4").innerHTML!="O"){
+            document.getElementById("btn4").innerHTML="X"
+          meta.state=false 
+          meta.turn=1
+          computer()
+        }
+        
+     }
+     
+     function btn5(){
+        if(meta.state==true && meta.turn==0 && doc("btn5").innerHTML!="O"){
+            document.getElementById("btn5").innerHTML="X"
+          meta.state=false 
+          meta.turn=1
+          computer()
+        }
+        
+     }
+     
+     function btn6(){
+        if(meta.state==true && meta.turn==0 && doc("btn6").innerHTML!="O"){
+            document.getElementById("btn6").innerHTML="X"
+          meta.state=false 
+          meta.turn=1
+          computer()
+        }
+        
+     }
+     
+     function btn7(){
+        if(meta.state==true && meta.turn==0 && doc("btn7").innerHTML!="O"){
+            document.getElementById("btn7").innerHTML="X"
+          meta.state=false 
+          meta.turn=1
+          computer()
+        }
+        
+     }
+     
+     function btn8(){
+        if(meta.state==true && meta.turn==0 && doc("btn8").innerHTML!="O"){
+            document.getElementById("btn8").innerHTML="X"
+          meta.state=false 
+          meta.turn=1
+          computer()
+        }
+        
+     }
+     
+       function btn9(){
+        if(meta.state==true && meta.turn==0 && doc("btn9").innerHTML!="O"){
+            document.getElementById("btn9").innerHTML="X"
+          meta.state=false 
+          meta.turn=1
+          computer()
+        }
+       
+     }
+      setInterval(()=>{
+       setTurn()
+       },300)
+      doc("btn1").onclick=btn1
+      doc("btn2").onclick=btn2
+      doc("btn3").onclick=btn3
+      doc("btn4").onclick=btn4
+      doc("btn5").onclick=btn5
+      doc("btn6").onclick=btn6
+      doc("btn7").onclick=btn7
+      doc("btn8").onclick=btn8
+      doc("btn9").onclick=btn9
+      doc("restart").onclick=restart
+    </script>
+    
+    <script type="text/javascript">
+	atOptions = {
+		'key' : '41418f387fa21f9fa292948c9b2d174a',
+		'format' : 'iframe',
+		'height' : 50,
+		'width' : 320,
+		'params' : {}
+	};
+	document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivecreativeformat.com/41418f387fa21f9fa292948c9b2d174a/invoke.js"></scr' + 'ipt>');
+</script>
+
+<script type="text/javascript">
+	atOptions = {
+		'key' : 'c3c70ea5d57fd3418c21c1b16acde05c',
+		'format' : 'iframe',
+		'height' : 60,
+		'width' : 468,
+		'params' : {}
+	};
+	document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivecreativeformat.com/c3c70ea5d57fd3418c21c1b16acde05c/invoke.js"></scr' + 'ipt>');
+</script>
+<script async="async" data-cfasync="false" src="https://pl18319535.highcpmrevenuenetwork.com/cd8d5c3b8fed35f8463f765583277f68/invoke.js"></script>
+<div id="container-cd8d5c3b8fed35f8463f765583277f68"></div>
+</body>
+</html>
